@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
+
 import type { FormInstance, FormRules } from "element-plus";
 import { Lock, User, Loading } from "@element-plus/icons-vue";
+
+import { useAuthStore } from "@/stores/authStore";
+
+const useAuth = useAuthStore();
+
+const { login } = useAuth;
 
 const ruleFormRef = ref<FormInstance>();
 
@@ -23,19 +30,20 @@ const validatePass = (rule: any, value: any, callback: any) => {
 
 const ruleForm = reactive({
   username: "",
-  pass: "",
+  password: "",
 });
 
 const rules = reactive<FormRules<typeof ruleForm>>({
   username: [{ validator: validateUsername, trigger: "blur" }],
-  pass: [{ validator: validatePass, trigger: "blur" }],
+  password: [{ validator: validatePass, trigger: "blur" }],
 });
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid) {
-      console.log("submit!", ruleForm.username);
+      console.log("submit! valid sya");
+      console.log(login(ruleForm));
     } else {
       console.log("error submit!");
     }
@@ -65,10 +73,10 @@ const isLoading = ref(false);
         placeholder="Username"
       />
     </el-form-item>
-    <el-form-item prop="pass">
+    <el-form-item prop="password">
       <el-input
         :prefix-icon="Lock"
-        v-model="ruleForm.pass"
+        v-model="ruleForm.password"
         type="password"
         autocomplete="off"
         placeholder="Password"

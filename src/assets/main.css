@@ -1,0 +1,13 @@
+body {
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+  height: 100vh;
+  background-image: url("./images/backgroundImage.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.el-input__inner {
+  background-color: transparent !important;
+}

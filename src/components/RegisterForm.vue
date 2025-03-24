@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { reactive, ref } from "vue";
+
 import type { FormInstance, FormRules } from "element-plus";
 import { Lock, User, Loading } from "@element-plus/icons-vue";
+
+import { useAuthStore } from "@/stores/authStore";
+
+const authStore = useAuthStore();
+
+const { register } = authStore;
 
 const ruleFormRef = ref<FormInstance>();
 
@@ -51,7 +58,7 @@ const validatePass = (rule: any, value: any, callback: any) => {
 const validatePass2 = (rule: any, value: any, callback: any) => {
   if (value === "") {
     callback(new Error("Please input the password again"));
-  } else if (value !== ruleForm.pass) {
+  } else if (value !== ruleForm.password) {
     callback(new Error("Passwords do not match!"));
   } else {
     callback();
@@ -63,7 +70,7 @@ const ruleForm = reactive({
   middleName: "",
   lastName: "",
   username: "",
-  pass: "",
+  password: "",
   checkPass: "",
 });
 
@@ -72,7 +79,7 @@ const rules = reactive<FormRules<typeof ruleForm>>({
   middleName: [{ validator: validateMiddleName, trigger: "blur" }],
   lastName: [{ validator: validateLastname, trigger: "blur" }],
   username: [{ validator: validateUsername, trigger: "blur" }],
-  pass: [{ validator: validatePass, trigger: "blur" }],
+  password: [{ validator: validatePass, trigger: "blur" }],
   checkPass: [{ validator: validatePass2, trigger: "blur" }],
 });
 
@@ -80,7 +87,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid) {
-      console.log("submit!", ruleForm.username);
+      console.log("submit!", ruleForm);
+      register(ruleForm);
     } else {
       console.log("error submit!");
     }
@@ -134,7 +142,7 @@ const isLoading = ref(false);
     <el-form-item prop="pass">
       <el-input
         :prefix-icon="Lock"
-        v-model="ruleForm.pass"
+        v-model="ruleForm.password"
         type="password"
         autocomplete="off"
         placeholder="Password"

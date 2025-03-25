@@ -5,9 +5,10 @@ import LoginForm from "@/components/LoginForm.vue";
 <template>
   <div class="form-container">
     <LoginForm />
-    <div>
-      <router-link to="/register">Create Account</router-link>
-    </div>
+    <p>
+      Dont have an account?
+      <router-link to="/register">Register here</router-link>
+    </p>
   </div>
 </template>
 
@@ -19,5 +20,19 @@ import LoginForm from "@/components/LoginForm.vue";
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+p {
+  color: white;
+  font-size: 14px;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover {
+  color: rgb(167, 187, 80);
 }
 </style>
